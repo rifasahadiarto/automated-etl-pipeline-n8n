@@ -1,0 +1,505 @@
+{
+  "name": "Automation data",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1KaOZKczyuQAADIiNYIAKAOD3LG0gWce6",
+          "mode": "list",
+          "cachedResultName": "Data Mentah",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1KaOZKczyuQAADIiNYIAKAOD3LG0gWce6"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "02a0a216-78de-4ce4-b5bf-8042b0da7115",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Jr9uITFuPMroLah9",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{$json.id}}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        224,
+        0
+      ],
+      "id": "722207d0-3ab8-45b0-b3b6-fea78d36e084",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Jr9uITFuPMroLah9",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "53179d6a-2d92-4a3e-8596-6e5fb71b016a",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all();\nconst seen = new Set();\nconst cleaned = [];\n\nfor (const item of rows) {\n  const row = Object.fromEntries(\n    Object.entries(item.json).map(([key, value]) => [\n      key.trim(),\n      typeof value === 'string' ? value.trim() : value,\n    ])\n  );\n\n  // Buang baris yang seluruh kolomnya kosong\n  if (Object.values(row).every(value =>\n    value === null || value === undefined || value === ''\n  )) {\n    continue;\n  }\n\n  // Buang baris duplikat yang seluruh nilainya sama\n  const signature = JSON.stringify(row);\n  if (seen.has(signature)) continue;\n\n  seen.add(signature);\n  cleaned.push({ json: row });\n}\n\nreturn cleaned;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ],
+      "id": "2aa5169a-f71b-4e1a-803e-d4e4d913d57a",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        784,
+        -192
+      ],
+      "id": "42ee23e5-37ef-495a-9307-5a3ef76a4a7a",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Google Drive Trigger').first().json.name.replace(/\\.[^/.]+$/, '_clean.xlsx') }}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1GvmL9LEiODaMQzs0hnvDnkPTIppU0VJ6",
+          "mode": "list",
+          "cachedResultName": "Data Clean",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1GvmL9LEiODaMQzs0hnvDnkPTIppU0VJ6"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        896,
+        16
+      ],
+      "id": "dc27cad7-0610-43d8-b544-966b9fbc21f7",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Jr9uITFuPMroLah9",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1XTzAclW8CtXnQcGAPHZvdUEfQmYyw0gYm2cWh3NLyGc",
+          "mode": "list",
+          "cachedResultName": "supermarket_sales_clean",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XTzAclW8CtXnQcGAPHZvdUEfQmYyw0gYm2cWh3NLyGc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 357632612,
+          "mode": "list",
+          "cachedResultName": "Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XTzAclW8CtXnQcGAPHZvdUEfQmYyw0gYm2cWh3NLyGc/edit#gid=357632612"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Invoice ID",
+              "displayName": "Invoice ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Branch",
+              "displayName": "Branch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Customer type",
+              "displayName": "Customer type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Gender",
+              "displayName": "Gender",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product line",
+              "displayName": "Product line",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Unit price",
+              "displayName": "Unit price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Quantity",
+              "displayName": "Quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tax 5%",
+              "displayName": "Tax 5%",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Total",
+              "displayName": "Total",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Time",
+              "displayName": "Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Payment",
+              "displayName": "Payment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "cogs",
+              "displayName": "cogs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "gross margin percentage",
+              "displayName": "gross margin percentage",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "gross income",
+              "displayName": "gross income",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Rating",
+              "displayName": "Rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        784,
+        224
+      ],
+      "id": "e0e4264c-501c-42ea-89e1-822c85e7fd30",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "yymdr5yXBgGV6WFJ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=📊 **[AUTOMATED PIPELINE: AI DATA INSIGHTS]**\n*Dataset: 891 Baris Data Berhasil Diproses & Divalidasi*\n\n{{ $json.content.parts[0].text.slice(0, 1700) }}...\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n• **Pipeline Engine:** n8n DataOps + Google Gemini Flash\n• **Sync Status:** Google Drive (.xlsx) & Google Sheets Updated ✅",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1328,
+        32
+      ],
+      "id": "6e8de89b-018e-4871-9adf-fc22efcd963f",
+      "name": "Discord",
+      "webhookId": "6fd34605-0ad4-4639-9cd7-083f0b61f5f5",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "UJzHJUbcT6IAJ7NL",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "models/gemini-3-flash-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Kamu adalah AI Data Operations Analyst. Sebuah file bernama \"{{ $json.name }}\" baru saja berhasil diproses melalui automated data pipeline, dibersihkan dari nilai anomali/missing values, dan sukses diunggah ke Google Drive.\n\nKamu adalah Senior Data Analyst. Berikut adalah sampel data riil dari 891 baris yang baru saja dibersihkan melalui pipeline:\n\n{{ $('Code in JavaScript').all().slice(0, 8).map(i => JSON.stringify(i.json)).join('\\n') }}\n\nTugasmu:\nAnalisis data di atas dan buatkan 3 poin INSIGHT BISNIS / POLA DATA paling menarik dan penting yang kamu temukan. Tuliskan dengan format bullet point yang tajam, profesional, dan mudah dipahami manajemen."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        1040,
+        192
+      ],
+      "id": "08099ec4-a40c-4a56-b78d-c011ca03d7e6",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "9adef36e-afb8-49e4-b5da-d623a2df7834",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "663851553988e7a06de14c095fc224c57691420640332b2e80d7acfd93e45711"
+  },
+  "nodeGroups": [],
+  "id": "swU8ALbIZ5RUWFke",
+  "tags": []
+}
