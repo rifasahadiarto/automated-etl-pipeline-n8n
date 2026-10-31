@@ -1,4 +1,4 @@
-# ⚡ Autonomous Cloud DataOps ETL Pipeline & GenAI Executive Reporting Engine
+# Autonomous Cloud DataOps ETL Pipeline & GenAI Executive Reporting Engine
 
 [![n8n Automation](https://img.shields.io/badge/n8n-Workflow%20Automation-EA4B71?logo=n8n&logoColor=white)](https://n8n.io/)
 [![Google Drive API](https://img.shields.io/badge/Google%20Drive-Data%20Ingestion-4285F4?logo=googledrive&logoColor=white)](https://developers.google.com/drive)
