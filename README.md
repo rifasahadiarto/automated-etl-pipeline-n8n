@@ -12,7 +12,7 @@ An end-to-end event-driven DataOps pipeline built with **n8n**, integrating auto
 
 ---
 
-## 📌 Executive Summary & Business Context
+## Executive Summary & Business Context
 
 In modern data-driven organizations, data pipelines often suffer from **operational silos and latency**:
 1. Field teams upload raw operational datasets (CSV/Forms) into shared cloud folders.
@@ -24,17 +24,17 @@ This project deploys a **zero-touch autonomous DataOps workflow** that listens f
 
 ---
 
-## 🏗️ End-to-End System Architecture
+## End-to-End System Architecture
 
 ```mermaid
 flowchart LR
-    A[📁 Raw CSV Ingestion<br/><i>Google Drive Watcher</i>] --> B[📥 File Extraction<br/><i>MIME Stream Parser</i>]
-    B --> C[⚙️ JS Sanitization Engine<br/><i>Deduplication & Null Pruning</i>]
-    C --> D[📊 Dual Storage Persistence]
+    A[ Raw CSV Ingestion<br/><i>Google Drive Watcher</i>] --> B[📥 File Extraction<br/><i>MIME Stream Parser</i>]
+    B --> C[ JS Sanitization Engine<br/><i>Deduplication & Null Pruning</i>]
+    C --> D[ Dual Storage Persistence]
     D --> D1[Convert to XLSX &<br/>Upload to Clean Drive]
     D --> D2[Append Rows Live to<br/>Google Sheets DB]
-    D1 --> E[🧠 Google Gemini AI<br/><i>Dynamic Sample Prompting</i>]
-    E --> F[🔔 Discord Executive Alert<br/><i>Payload-Safe Webhook</i>]
+    D1 --> E[ Google Gemini AI<br/><i>Dynamic Sample Prompting</i>]
+    E --> F[ Discord Executive Alert<br/><i>Payload-Safe Webhook</i>]
 
     style A fill:#4285F4,stroke:#333,stroke-width:1px,color:#fff
     style C fill:#F7DF1E,stroke:#333,stroke-width:1px,color:#000
@@ -44,12 +44,12 @@ flowchart LR
     style F fill:#5865F2,stroke:#333,stroke-width:1px,color:#fff
 ```
 
-### 🖼️ Pipeline Visual Canvas (n8n Workflow)
+### Pipeline Visual Canvas (n8n Workflow)
 ![n8n ETL Canvas](assets/pipeline_architecture_canvas.png)
 
 ---
 
-## 🛠️ Pipeline Stages & Technical Implementation
+## Pipeline Stages & Technical Implementation
 
 ### Stage 1: Event-Driven Ingestion
 * **Node:** `Google Drive Trigger` & `Download file`
@@ -114,7 +114,7 @@ return cleaned;
 
 ---
 
-## 📈 Executive Deliverable: Real-Time Discord AI Alert
+## Executive Deliverable: Real-Time Discord AI Alert
 
 Below is the live operational alert generated autonomously by the pipeline upon ingesting 891 records:
 
@@ -130,7 +130,7 @@ Below is the live operational alert generated autonomously by the pipeline upon 
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```text
 portfolio_n8n_etl/
@@ -143,7 +143,7 @@ portfolio_n8n_etl/
 
 ---
 
-## 🚀 How to Deploy & Replicate
+## How to Deploy & Replicate
 
 1. **Install n8n:**
    ```bash
@@ -166,7 +166,7 @@ portfolio_n8n_etl/
 
 ---
 
-## 💡 Business Impact & Engineering Value
+## Business Impact & Engineering Value
 
 | Traditional Manual Flow | Autonomous n8n + GenAI Pipeline |
 | :--- | :--- |
