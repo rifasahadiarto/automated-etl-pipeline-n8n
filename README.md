@@ -164,7 +164,7 @@ portfolio_n8n_etl/
    * Drop any raw CSV file into your designated Google Drive folder.
    * Watch the pipeline automatically clean data, update sheets, and deliver executive insights in seconds!
 
----
+--
 
 ## Business Impact & Engineering Value
 
