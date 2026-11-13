@@ -1,12 +1,4 @@
-# Autonomous Cloud DataOps ETL Pipeline & Executive Reporting Engine
-
-[![n8n Automation](https://img.shields.io/badge/n8n-Workflow%20Automation-EA4B71?logo=n8n&logoColor=white)](https://n8n.io/)
-[![Google Drive API](https://img.shields.io/badge/Google%20Drive-Data%20Ingestion-4285F4?logo=googledrive&logoColor=white)](https://developers.google.com/drive)
-[![JavaScript](https://img.shields.io/badge/JavaScript-Data%20Sanitization-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![Google Sheets API](https://img.shields.io/badge/Google%20Sheets-Live%20Sync-34A853?logo=googlesheets&logoColor=white)](https://developers.google.com/sheets)
-[![Google Gemini Flash](https://img.shields.io/badge/Google%20Gemini-Cognitive%20Insights-8E75C2?logo=google&logoColor=white)](https://ai.google.dev/)
-[![Discord Webhooks](https://img.shields.io/badge/Discord-Real--Time%20Alerts-5865F2?logo=discord&logoColor=white)](https://discord.com/developers/docs/resources/webhook)
-[![Status](https://img.shields.io/badge/Status-Production%20Ready-success)](https://github.com/)
+# Autonomous Cloud DataOps ETL Pipeline & Executive Reporting
 
 An end-to-end event-driven DataOps pipeline built with **n8n**, integrating automated cloud data ingestion, deterministic JavaScript data cleansing, dual-tier cloud storage synchronization (Google Drive & Google Sheets), and autonomous cognitive data storytelling powered by **Google Gemini AI** with real-time **Discord executive alerting**.
 
